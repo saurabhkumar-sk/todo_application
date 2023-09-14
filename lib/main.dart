@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/screens/landing_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const LandingScreen(title: 'Todo Application Home Page'),
@@ -20,21 +21,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LandingScreen extends StatefulWidget {
-  const LandingScreen({super.key, required this.title});
-  final String title;
 
-  @override
-  State<LandingScreen> createState() => _LandingScreenState();
-}
-
-class _LandingScreenState extends State<LandingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todo'),
-      ),
-    );
-  }
-}

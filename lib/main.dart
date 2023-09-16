@@ -12,13 +12,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ToDo',
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          color: Color.fromRGBO(97, 94, 255, 1),
+          titleTextStyle: TextStyle(color: Colors.white),
+        ),
         useMaterial3: true,
       ),
-      home: const LandingScreen(title: 'Todo Application Home Page'),
+      home: const LandingScreen(name: 'Todo Application Home Page'),
     );
   }
 }
-
-

@@ -11,30 +11,64 @@ class DueTaskScreen extends StatefulWidget {
 }
 
 class _DueTaskScreenState extends State<DueTaskScreen> {
-  // final String Isdone = isDone;
+  List<ToDo> tasks = todoList();
+  final textController = TextEditingController();
+  bool isdone = false;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: ToDo.todoList().length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            color: const Color.fromRGBO(97, 94, 255, 1),
-            child: ListTile(
-              title: Text(
-                ToDo.todoList()[index].todoText.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+      child: Column(
+        children: [
+          // const SizedBox(height: 250),
+          // const Icon(
+          //   Icons.add_box_outlined,
+          //   size: 100,
+          //   color: Colors.grey,
+          // ),
+          // const Text('No Task Left'),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: tasks.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                color: const Color.fromRGBO(97, 94, 255, 1),
+                child: ListTile(
+                  title: Text(
+                    tasks[index].todoText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Icon(
+                    tasks[index].isDone
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              trailing: const Icon(
-                Icons.check_box_outline_blank,
-                color: Colors.white,
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+          // TextField(
+          //   controller: textController,
+          //   decoration: const InputDecoration(
+          //     fillColor: Colors.grey,
+          //     filled: true,
+          //   ),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     tasks.add;
+          //     textController.clear();
+          //     setState(() {});
+          //   },
+          //   child: const Text('Add'),
+          // )
+        ],
       ),
     );
   }

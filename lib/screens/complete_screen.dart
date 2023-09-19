@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:todo/screens/landing_screen.dart';
 
-class CompleteScreen extends StatelessWidget {
+class CompleteScreen extends StatefulWidget {
   const CompleteScreen({
     super.key,
   });
+
+  @override
+  State<CompleteScreen> createState() => _CompleteScreenState();
+  
+}
+
+class _CompleteScreenState extends State<CompleteScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +18,7 @@ class CompleteScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>const  LandingScreen(name: ''),
-                ));
-          },
+          onPressed: () {},
           icon: const Icon(
             Icons.add_box_outlined,
             size: 118,
@@ -36,3 +36,5 @@ class CompleteScreen extends StatelessWidget {
     );
   }
 }
+
+

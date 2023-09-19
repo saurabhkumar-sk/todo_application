@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/provider/provider.dart';
 import 'package:todo/screens/landing_screen.dart';
 
 void main() {
@@ -10,17 +12,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ToDo',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          color: Color.fromRGBO(97, 94, 255, 1),
-          titleTextStyle: TextStyle(color: Colors.white),
+    return ChangeNotifierProvider(
+      create: (_) => TodoProvider(),
+      child: MaterialApp(
+        
+        debugShowCheckedModeBanner: false,
+        title: 'ToDo',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            color: Color.fromRGBO(97, 94, 255, 1),
+            titleTextStyle: TextStyle(color: Colors.white),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: const LandingScreen(name: 'Todo Application Home Page'),
       ),
-      home: const LandingScreen(name: 'Todo Application Home Page'),
     );
   }
 }
+

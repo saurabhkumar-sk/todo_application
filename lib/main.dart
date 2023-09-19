@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo/provider/provider.dart';
+import 'package:todo/provider/todo_provider.dart';
 import 'package:todo/screens/landing_screen.dart';
 
 void main() {
@@ -13,9 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TodoProvider(),
+      create: (context) => TodoProvider(),
       child: MaterialApp(
-        
         debugShowCheckedModeBanner: false,
         title: 'ToDo',
         theme: ThemeData(
@@ -30,4 +29,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

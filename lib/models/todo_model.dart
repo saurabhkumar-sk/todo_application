@@ -1,10 +1,13 @@
-class ToDoModel {
+class TodoModel {
   String todoText;
   bool isDone;
 
-  ToDoModel({
+  TodoModel({
     required this.todoText,
     this.isDone = false,
   });
-}
 
+  void complete() {
+    isDone = !isDone;
+  }
+}

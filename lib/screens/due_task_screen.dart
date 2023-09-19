@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/todo_model.dart';
-import 'package:todo/provider/provider.dart';
+import 'package:todo/provider/todo_provider.dart';
 
 class DueTaskScreen extends StatefulWidget {
   const DueTaskScreen({
@@ -13,9 +13,6 @@ class DueTaskScreen extends StatefulWidget {
 }
 
 class _DueTaskScreenState extends State<DueTaskScreen> {
-  final textController = TextEditingController();
-  bool isdone = true;
-
   late TodoProvider provider;
   @override
   void initState() {
@@ -25,11 +22,11 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<TodoProvider, List<ToDoModel>>(
-      selector: (p0, p1) => p1.todoList,
+    return Selector<TodoProvider, List<TodoModel>>(
+      selector: (p0, p1) => p1.completeTask,
       builder: (context, todosList, child) => ListView.builder(
         shrinkWrap: true,
-        itemCount: todosList.length,
+        itemCount: provider.tasks.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(
@@ -61,16 +58,16 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                 );
               },
               title: Text(
-                todosList[index].todoText,
+                provider.tasks[index].todoText,
                 style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
-              trailing: Icon(
-                todosList[index].todoText.isNotEmpty
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                color: Colors.white,
+              trailing: Checkbox(
+                value: provider.tasks[index].isDone,
+                onChanged: (value) => provider.toggleTask(
+                  provider.completeTask[index],
+                ),
               ),
             ),
           );

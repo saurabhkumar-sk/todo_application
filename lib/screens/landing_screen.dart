@@ -89,7 +89,6 @@ class _LandingScreenState extends State<LandingScreen> {
                         fillColor: Color.fromRGBO(116, 116, 116, 1),
                         filled: true,
                       ),
-                      // onSubmitted: (value) => sumbit(),
                     ),
                   ),
                   Padding(

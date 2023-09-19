@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:todo/models/todo_model.dart';
 
@@ -6,7 +5,7 @@ class TodoProvider extends ChangeNotifier {
   final tasks = [
     TodoModel(
       todoText: 'Morning Exercise',
-      isDone: true,
+      isDone: false,
     ),
     TodoModel(
       todoText: 'todoText',
@@ -17,8 +16,6 @@ class TodoProvider extends ChangeNotifier {
       isDone: true,
     ),
   ];
-
-  List<TodoModel>  completeTask = [];
 
   void addTask(String task) {
     tasks.add(
@@ -33,5 +30,19 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeTask(String task) {
+    tasks.remove(
+      TodoModel(todoText: task),
+    );
+    notifyListeners();
+  }
 
+  // bool change = false;
+  // void changeButton() {
+  //   if (tasks.isNotEmpty) {
+  //     change = true;
+  //   } else {
+  //     change = false;
+  //   }
+  // }
 }

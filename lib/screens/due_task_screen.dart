@@ -13,6 +13,7 @@ class DueTaskScreen extends StatefulWidget {
 }
 
 class _DueTaskScreenState extends State<DueTaskScreen> {
+  final textController = TextEditingController();
   late TodoProvider provider;
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Selector<TodoProvider, List<TodoModel>>(
-      selector: (p0, p1) => p1.completeTask,
+      selector: (p0, p1) => p1.tasks,
       builder: (context, todosList, child) => ListView.builder(
         shrinkWrap: true,
         itemCount: provider.tasks.length,
@@ -63,12 +64,23 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                   color: Colors.white,
                 ),
               ),
-              trailing: Checkbox(
-                value: provider.tasks[index].isDone,
-                onChanged: (value) => provider.toggleTask(
-                  provider.completeTask[index],
-                ),
+              trailing: IconButton(
+                icon: provider.tasks[index].isDone
+                    ? const Icon(Icons.check_box_outlined)
+                    : const Icon(Icons.check_box_outline_blank_outlined),
+                onPressed: () {
+                  provider.toggleTask(provider.tasks[index]);
+                  setState(() {});
+                },
               ),
+
+              //  Checkbox(
+              // activeColor: Colors.white,
+              //   value: provider.tasks[index].isDone,
+              //   onChanged: (value) => provider.toggleTask(
+              //     provider.tasks[index],
+              //   ),
+              // ),
             ),
           );
         },

@@ -85,63 +85,93 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
           Icons.add_circle_outline_sharp,
         ),
       ),
-      body: Selector<TodoProvider, List>(
-        selector: (p0, p1) => p1.tasks,
-        builder: (context, todosList, child) => ListView.builder(
-          shrinkWrap: true,
-          itemCount: todosList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 10,
-              ),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                tileColor: const Color.fromRGBO(97, 94, 255, 1),
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => SizedBox(
-                      height: 250,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (provider.tasks.isNotEmpty)
+              Selector<TodoProvider, List>(
+                selector: (p0, p1) => p1.tasks,
+                builder: (context, todosList, child) => ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: todosList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        tileColor: const Color.fromRGBO(97, 94, 255, 1),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => SizedBox(
+                              height: 250,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  todosList[index].todoText,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        title: Text(
                           todosList[index].todoText,
                           style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-                title: Text(
-                  todosList[index].todoText,
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: todosList[index].isDone
-                      ? const Icon(Icons.check_box_outlined)
-                      : const Icon(Icons.check_box_outline_blank_outlined),
-                  onPressed: () {
-                    // todosList[index].isDone == false
-                    // ?
-                    provider.toggleTask(todosList[index]);
-                    // : provider.removeTask(index);
+                        trailing: IconButton(
+                          icon: todosList[index].isDone
+                              ? const Icon(Icons.check_box_outlined)
+                              : const Icon(
+                                  Icons.check_box_outline_blank_outlined),
+                          onPressed: () {
+                            // todosList[index].isDone == false
+                            // ?
+                            provider.toggleTask(todosList[index]);
+                            // : provider.removeTask(index);
 
-                    setState(() {});
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
+              )
+            else
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 230, horizontal: 137),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.add_box_outlined,
+                      size: 100,
+                      color: Color.fromRGBO(47, 47, 47, 1),
+                    ),
+                    Text(
+                      'No Task Left',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromRGBO(47, 47, 47, 1),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            );
-          },
+          ],
         ),
       ),
     );

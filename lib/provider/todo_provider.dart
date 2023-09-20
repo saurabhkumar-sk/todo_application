@@ -13,36 +13,22 @@ class TodoProvider extends ChangeNotifier {
     ),
     TodoModel(
       todoText: 'todoText12',
-      isDone: true,
+      isDone: false,
     ),
   ];
 
-  void addTask(String task) {
-    tasks.add(
-      TodoModel(todoText: task, isDone: false),
-    );
+  void addTask(TodoModel value) {
+    tasks.add(value);
     notifyListeners();
   }
 
   void toggleTask(TodoModel task) {
-    final taskIndex = tasks.indexOf(task);
-    tasks[taskIndex].complete();
+    tasks[tasks.indexOf(task)].complete();
     notifyListeners();
   }
 
-  void removeTask(String task) {
-    tasks.remove(
-      TodoModel(todoText: task),
-    );
+  void removeTask(int value) {
+    tasks.removeAt(value);
     notifyListeners();
   }
-
-  // bool change = false;
-  // void changeButton() {
-  //   if (tasks.isNotEmpty) {
-  //     change = true;
-  //   } else {
-  //     change = false;
-  //   }
-  // }
 }

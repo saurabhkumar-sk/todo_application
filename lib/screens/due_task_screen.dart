@@ -26,9 +26,16 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(24, 24, 24, 1),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 102, 101, 102),
+        backgroundColor: const Color.fromARGB(255, 51, 51, 87),
+        shape: const CircleBorder(
+          side: BorderSide(
+            color: Color.fromARGB(255, 51, 51, 87),
+            width: 2,
+          ),
+        ),
         onPressed: () {
           showModalBottomSheet(
+            useSafeArea: true,
             backgroundColor: const Color.fromRGBO(24, 24, 24, 1),
             context: context,
             builder: (context) => Column(
@@ -51,7 +58,7 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                       hintStyle: TextStyle(color: Colors.grey),
                       border: UnderlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(50),
+                          Radius.circular(12),
                         ),
                       ),
                       hintText: 'Enter Your Task',
@@ -60,21 +67,35 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 50.0),
-                  child: FloatingActionButton.extended(
-                    onPressed: () {
-                      provider
-                          .addTask(TodoModel(todoText: textController.text));
-                      textController.clear();
-                      Navigator.pop(context);
-                    },
-                    label: const Text(
-                      'Add',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                FloatingActionButton.extended(
+                  shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
                     ),
+                  ),
+                  backgroundColor: const Color.fromARGB(255, 51, 51, 87),
+                  onPressed: () {
+                    // provider.completedTask
+                    //     .add(TodoModel(todoText: textController.text));
+                    provider.addTask(TodoModel(todoText: textController.text));
+                    textController.clear();
+                    Navigator.pop(context);
+                  },
+                  label: const Row(
+                    children: [
+                      Text(
+                        'Add ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Icon(
+                        Icons.add_circle_outline,
+                        size: 24,
+                        color: Color.fromARGB(255, 106, 52, 243),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -83,18 +104,19 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
         },
         child: const Icon(
           Icons.add_circle_outline_sharp,
+          color: Color.fromARGB(255, 106, 52, 243),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             if (provider.tasks.isNotEmpty)
-              Selector<TodoProvider, List>(
+              Selector<TodoProvider, List<TodoModel>>(
                 selector: (p0, p1) => p1.tasks,
-                builder: (context, todosList, child) => ListView.builder(
+                builder: (context, task, child) => ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: todosList.length,
+                  itemCount: task.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
@@ -115,7 +137,7 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  todosList[index].todoText,
+                                  task[index].todoText,
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -126,22 +148,21 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                           );
                         },
                         title: Text(
-                          todosList[index].todoText,
+                          task[index].todoText,
                           style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
                         trailing: IconButton(
-                          icon: todosList[index].isDone
+                          icon: task[index].isDone
                               ? const Icon(Icons.check_box_outlined)
                               : const Icon(
                                   Icons.check_box_outline_blank_outlined),
                           onPressed: () {
                             // todosList[index].isDone == false
                             // ?
-                            provider.toggleTask(todosList[index]);
-                            // : provider.removeTask(index);
-
+                            provider.toggleTask(task[index]);
+                            // provider.tasks.clear();
                             setState(() {});
                           },
                         ),

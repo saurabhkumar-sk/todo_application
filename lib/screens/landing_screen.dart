@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo/provider/todo_provider.dart';
 import 'package:todo/screens/complete_screen.dart';
 import 'package:todo/screens/due_task_screen.dart';
 
-class LandingScreen extends StatefulWidget {
+class LandingScreen extends StatelessWidget {
   final String name;
-  const LandingScreen({super.key, required this.name});
+   LandingScreen({super.key, required this.name});
 
-  @override
-  State<LandingScreen> createState() => _LandingScreenState();
-}
-
-class _LandingScreenState extends State<LandingScreen> {
   final textController = TextEditingController();
-
-  late TodoProvider provider;
-
-  @override
-  void initState() {
-    super.initState();
-    provider = Provider.of<TodoProvider>(context, listen: false);
-  }
 
   @override
   Widget build(BuildContext context) {

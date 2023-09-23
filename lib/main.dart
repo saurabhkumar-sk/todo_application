@@ -24,8 +24,9 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const LandingScreen(name: 'Todo Application Home Page'),
+        home:  LandingScreen(name: 'Todo Application Home Page'),
       ),
     );
   }
 }
+

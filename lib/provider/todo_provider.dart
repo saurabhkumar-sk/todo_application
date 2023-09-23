@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/models/todo_model.dart';
 
 class TodoProvider extends ChangeNotifier {
-  final tasks = <TodoModel>[
+  final _tasks = <TodoModel>[
     TodoModel(
       todoText: 'Morning Exercise',
       isDone: false,
@@ -16,22 +16,29 @@ class TodoProvider extends ChangeNotifier {
     //   isDone: true,
     // ),
   ];
+  List<TodoModel> get dueTask =>
+      _tasks.where((element) => element.isDone == false).toList();
 
   List<TodoModel> get completedTask =>
-      tasks.where((element) => element.isDone).toList();
+      _tasks.where((element) => element.isDone).toList();
 
   void addTask(TodoModel value) {
-    tasks.add(value);
+    _tasks.add(value);
     notifyListeners();
   }
 
   void toggleTask(TodoModel task) {
-    tasks[tasks.indexOf(task)].complete();
+    _tasks[_tasks.indexOf(task)].complete();
     notifyListeners();
   }
 
-  void removeTask(int value) {
-    tasks.removeAt(value);
+  // void removeTask(int value) {
+  //   dueTask.removeAt(value);
+  //   notifyListeners();
+  // }
+
+  void removeCompletedTasks() {
+    _tasks.removeWhere((task) => task.isDone);
     notifyListeners();
   }
 }

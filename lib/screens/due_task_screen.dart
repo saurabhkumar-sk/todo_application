@@ -63,40 +63,44 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                         ),
                       ),
                       hintText: 'Enter Your Task',
-                      fillColor: Color.fromRGBO(116, 116, 116, 1),
+                      fillColor: Color.fromRGBO(116, 116, 116, 0.5),
                       filled: true,
                     ),
                   ),
                 ),
-                FloatingActionButton.extended(
-                  shape: const ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                  ),
-                  backgroundColor: const Color.fromARGB(255, 51, 51, 87),
-                  onPressed: () {
-                    // provider.completedTask
-                    //     .add(TodoModel(todoText: textController.text));
-                    provider.addTask(TodoModel(todoText: textController.text));
-                    textController.clear();
-                    Navigator.pop(context);
-                  },
-                  label: const Row(
-                    children: [
-                      Text(
-                        'Add ',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50),
+                  child: FloatingActionButton.extended(
+                    shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
                       ),
-                      Icon(
-                        Icons.add_circle_outline,
-                        size: 24,
-                        color: Color.fromARGB(255, 106, 52, 243),
-                      )
-                    ],
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 51, 51, 87),
+                    onPressed: () {
+                      // provider.completedTask
+                      //     .add(TodoModel(todoText: textController.text));
+                      provider
+                          .addTask(TodoModel(todoText: textController.text));
+                      textController.clear();
+                      Navigator.pop(context);
+                    },
+                    label: const Row(
+                      children: [
+                        Text(
+                          'Add ',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Icon(
+                          Icons.add_circle_outline,
+                          size: 24,
+                          color: Color.fromARGB(255, 106, 52, 243),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -3,10 +3,10 @@ import 'package:todo/models/todo_model.dart';
 
 class TodoProvider extends ChangeNotifier {
   final _tasks = <TodoModel>[
-    TodoModel(
-      todoText: 'Morning Exercise',
-      isDone: false,
-    ),
+    // TodoModel(
+    //   todoText: 'Morning Exercise',
+    //   isDone: false,
+    // ),
     // TodoModel(
     //   todoText: 'todoText',
     //   isDone: false,

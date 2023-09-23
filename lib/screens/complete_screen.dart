@@ -82,6 +82,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                     horizontal: 15,
                                   ),
                                   child: TextField(
+                                    style: TextStyle(color: Colors.white),
                                     controller: textController,
                                     decoration: const InputDecoration(
                                       hintStyle: TextStyle(color: Colors.grey),
@@ -92,7 +93,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                       ),
                                       hintText: 'Enter Your Task',
                                       fillColor:
-                                          Color.fromRGBO(116, 116, 116, 1),
+                                          Color.fromRGBO(116, 116, 116, 0.5),
                                       filled: true,
                                     ),
                                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/components/db_helper.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/provider/todo_provider.dart';
 
@@ -55,9 +56,11 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                   ),
                   child: TextField(
                     controller: textController,
+                    style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(color: Colors.grey),
                       border: UnderlineInputBorder(
+                        borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(
                           Radius.circular(12),
                         ),
@@ -71,17 +74,16 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 50),
                   child: FloatingActionButton.extended(
-                    shape: const ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                    ),
+                    // shape: const ContinuousRectangleBorder(
+                    //   borderRadius: BorderRadius.all(
+                    //     Radius.circular(50),
+                    //   ),
+                    // ),
                     backgroundColor: const Color.fromARGB(255, 51, 51, 87),
-                    onPressed: () {
-                      // provider.completedTask
-                      //     .add(TodoModel(todoText: textController.text));
-                      provider
-                          .addTask(TodoModel(todoText: textController.text));
+                    onPressed: () async {
+                      DBHelper.instance
+                          .createTodos(TodoModel(title: textController.text));
+                      context.read<TodoProvider>().getTodos();
                       textController.clear();
                       Navigator.pop(context);
                     },
@@ -155,26 +157,24 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                               ),
                               tileColor: const Color.fromRGBO(97, 94, 255, 1),
                               onTap: () {
-                                showModalBottomSheet(
+                                showDialog(
+                                  useSafeArea: true,
                                   context: context,
-                                  builder: (context) => SizedBox(
-                                    height: 250,
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        task[index].todoText,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                  builder: (context) => AlertDialog(
+                                    shape: const BeveledRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    title: Text(task[index].title),
+                                    titleTextStyle: const TextStyle(
+                                      color: Color.fromRGBO(97, 94, 255, 1),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 );
                               },
                               title: Text(
-                                provider.dueTask[index].todoText,
+                                task[index].title,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),

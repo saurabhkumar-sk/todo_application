@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/components/db_helper.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/provider/todo_provider.dart';
 
@@ -40,7 +41,6 @@ class _CompleteScreenState extends State<CompleteScreen> {
                   ),
                 ),
                 onPressed: () {
-                  // completedTasks.tasks.clear();
                   provider.removeCompletedTasks();
                   setState(() {});
                 },
@@ -82,7 +82,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                     horizontal: 15,
                                   ),
                                   child: TextField(
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                     controller: textController,
                                     decoration: const InputDecoration(
                                       hintStyle: TextStyle(color: Colors.grey),
@@ -105,11 +105,9 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                     backgroundColor:
                                         const Color.fromARGB(255, 51, 51, 87),
                                     onPressed: () {
-                                      provider.addTask(
-                                        TodoModel(
-                                          todoText: textController.text,
-                                        ),
-                                      );
+                                      DBHelper.instance.createTodos(TodoModel(
+                                          title: textController.text));
+                                      context.read<TodoProvider>().getTodos();
                                       textController.clear();
                                       Navigator.pop(context);
                                     },
@@ -176,7 +174,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          completeTask[index].todoText,
+                          completeTask[index].title,
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -187,7 +185,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                   );
                 },
                 title: Text(
-                  completeTask[index].todoText,
+                  completeTask[index].title,
                   style: const TextStyle(
                     color: Colors.white,
                     decoration: TextDecoration.lineThrough,

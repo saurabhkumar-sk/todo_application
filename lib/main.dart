@@ -4,6 +4,8 @@ import 'package:todo/provider/todo_provider.dart';
 import 'package:todo/screens/landing_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -24,9 +26,8 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home:  LandingScreen(name: 'Todo Application Home Page'),
+        home: LandingScreen(name: 'Todo Application Home Page'),
       ),
     );
   }
 }
-

@@ -21,6 +21,7 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
   void initState() {
     super.initState();
     provider = Provider.of<TodoProvider>(context, listen: false);
+    provider.getTodos();
   }
 
   @override
@@ -82,10 +83,12 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                     backgroundColor: const Color.fromARGB(255, 51, 51, 87),
                     onPressed: () async {
                       DBHelper.instance
-                          .createTodos(TodoModel(title: textController.text));
-                      context.read<TodoProvider>().getTodos();
-                      textController.clear();
-                      Navigator.pop(context);
+                          .createTodos(TodoModel(title: textController.text))
+                          .then((value) {
+                        provider.getTodos();
+                        textController.clear();
+                        Navigator.pop(context);
+                      });
                     },
                     label: const Row(
                       children: [

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/provider/todo_provider.dart';
+import 'package:todo/screens/landing_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -9,31 +14,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const LandingScreen(title: 'Todo Application Home Page'),
-    );
-  }
-}
-
-class LandingScreen extends StatefulWidget {
-  const LandingScreen({super.key, required this.title});
-  final String title;
-
-  @override
-  State<LandingScreen> createState() => _LandingScreenState();
-}
-
-class _LandingScreenState extends State<LandingScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todo'),
+    return ChangeNotifierProvider(
+      create: (context) => TodoProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'ToDo',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            color: Color.fromRGBO(97, 94, 255, 1),
+            titleTextStyle: TextStyle(color: Colors.white),
+          ),
+          useMaterial3: true,
+        ),
+        home: LandingScreen(name: 'Todo Application Home Page'),
       ),
     );
   }

@@ -6,8 +6,9 @@ import 'package:todo/provider/todo_provider.dart';
 
 class DueTaskScreen extends StatefulWidget {
   const DueTaskScreen({
-    super.key,
+    super.key, required this.no,
   });
+    final int no;
 
   @override
   State<DueTaskScreen> createState() => _DueTaskScreenState();
@@ -83,7 +84,7 @@ class _DueTaskScreenState extends State<DueTaskScreen> {
                     backgroundColor: const Color.fromARGB(255, 51, 51, 87),
                     onPressed: () async {
                       DBHelper.instance
-                          .createTodos(TodoModel(title: textController.text))
+                          .createTodos(TodoModel(id: widget.no, title: textController.text))
                           .then((value) {
                         provider.getTodos();
                         textController.clear();

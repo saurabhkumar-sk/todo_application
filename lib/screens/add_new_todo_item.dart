@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AddNewToDoItemScreen extends StatefulWidget {
-  const AddNewToDoItemScreen({super.key});
+  const AddNewToDoItemScreen({super.key, required this.no});
+    final int no;
 
   @override
   State<AddNewToDoItemScreen> createState() => _AddNewToDoItemScreenState();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:todo/components/db_helper.dart';
 import 'package:todo/models/todo_model.dart';
@@ -39,32 +41,39 @@ class TodoProvider extends ChangeNotifier {
   // }
 
 //SqLite
-  List<TodoModel> todos = [
+  List<TodoModel> _todos = [
     // TodoModel(
     //   title: 'Morning Exercise',
     //   isDone: false,
     // ),
   ];
   List<TodoModel> get dueTask =>
-      todos.where((element) => element.isDone == false).toList();
+      _todos.where((element) => element.isDone == false).toList();
 
   List<TodoModel> get completedTask =>
-      todos.where((element) => element.isDone).toList();
+      _todos.where((element) => element.isDone).toList();
 
   void toggleTask(TodoModel task) {
-    todos[todos.indexOf(task)].complete();
+    _todos[_todos.indexOf(task)].complete();
     notifyListeners();
   }
 
   void removeCompletedTasks() {
-    todos.removeWhere((task) => task.isDone);
+    _todos.removeWhere((task) => task.isDone);
     notifyListeners();
   }
 
   Future<void> getTodos() async {
     final response = await DBHelper.instance.getTodos();
-
-    todos = response;
+    _todos = response;
     notifyListeners();
+  }
+
+  Future<void> delete(TodoModel todo) async {
+    final response = await DBHelper.instance.delete(todo);
+    // _todos.removeWhere((task) => task.isDone);
+    notifyListeners();
+
+    return response;
   }
 }

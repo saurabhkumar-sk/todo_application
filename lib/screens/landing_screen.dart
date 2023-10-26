@@ -4,7 +4,7 @@ import 'package:todo/screens/due_task_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   final String name;
-   LandingScreen({super.key, required this.name});
+  LandingScreen({super.key, required this.name});
 
   final textController = TextEditingController();
 
@@ -43,8 +43,12 @@ class LandingScreen extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            DueTaskScreen(),
-            CompleteScreen(),
+            DueTaskScreen(
+              no: 1,
+            ),
+            CompleteScreen(
+              no: 1,
+            ),
           ],
         ),
       ),

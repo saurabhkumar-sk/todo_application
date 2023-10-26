@@ -27,7 +27,7 @@ class DBHelper {
       join(await getDatabasesPath(), _dbName),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE $_tableName(title TEXT PRIMARY KEY)',
+          'CREATE TABLE $_tableName(id INTEGER PRIMARY KEY, title TEXT,complete BOOLEAN)',
         );
       },
       version: _version,
@@ -75,11 +75,12 @@ class DBHelper {
   Future<void> delete(TodoModel todo) async {
     final db = await database;
 
-    await db.update(
+    await db.delete(
       _tableName,
-      todo.toMap(),
       where: 'id=?',
       whereArgs: [todo.title],
     );
   }
+
+  // deleteCompletedTasks() {}
 }

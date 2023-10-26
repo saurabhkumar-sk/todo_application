@@ -7,7 +7,9 @@ import 'package:todo/provider/todo_provider.dart';
 class CompleteScreen extends StatefulWidget {
   const CompleteScreen({
     super.key,
+    required this.no,
   });
+  final int no;
 
   @override
   State<CompleteScreen> createState() => _CompleteScreenState();
@@ -27,11 +29,11 @@ class _CompleteScreenState extends State<CompleteScreen> {
   Widget build(BuildContext context) {
     return Selector<TodoProvider, List<TodoModel>>(
       selector: (p0, p1) => p1.completedTask,
-      builder: (context, completeTask, child) => Scaffold(
+      builder: (context, task, child) => Scaffold(
         backgroundColor: const Color.fromRGBO(24, 24, 24, 1),
         floatingActionButton: Stack(
           children: [
-            if (completeTask.isNotEmpty)
+            if (task.isNotEmpty)
               FloatingActionButton(
                 backgroundColor: const Color.fromARGB(255, 67, 27, 27),
                 shape: const CircleBorder(
@@ -41,8 +43,8 @@ class _CompleteScreenState extends State<CompleteScreen> {
                   ),
                 ),
                 onPressed: () {
+                  // DBHelper.instance.delete(task);
                   provider.removeCompletedTasks();
-                  setState(() {});
                 },
                 child: const Icon(Icons.delete_outlined,
                     color: Color.fromRGBO(255, 45, 45, 1)),
@@ -106,6 +108,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                         const Color.fromARGB(255, 51, 51, 87),
                                     onPressed: () {
                                       DBHelper.instance.createTodos(TodoModel(
+                                          id: widget.no,
                                           title: textController.text));
                                       context.read<TodoProvider>().getTodos();
                                       textController.clear();
@@ -125,7 +128,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
                                           size: 24,
                                           color:
                                               Color.fromARGB(255, 106, 52, 243),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -154,60 +157,61 @@ class _CompleteScreenState extends State<CompleteScreen> {
               ),
           ],
         ),
-        body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: completeTask.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                tileColor: const Color.fromRGBO(97, 94, 255, 0.12),
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => SizedBox(
-                      height: 250,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          completeTask[index].title,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+        body: Selector<TodoProvider, List<TodoModel>>(
+          selector: (p0, p1) => p1.completedTask,
+          builder: (context, task, child) => ListView.builder(
+            shrinkWrap: true,
+            itemCount: task.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  tileColor: const Color.fromRGBO(97, 94, 255, 0.12),
+                  onTap: () {
+                    showDialog(
+                      useSafeArea: true,
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        shape: const BeveledRectangleBorder(
+                          side: BorderSide.none,
+                        ),
+                        title: Text(task[index].title),
+                        titleTextStyle: const TextStyle(
+                          color: Color.fromRGBO(97, 94, 255, 1),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
+                    );
+                  },
+                  title: Text(
+                    task[index].title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: Colors.white,
                     ),
-                  );
-                },
-                title: Text(
-                  completeTask[index].title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.lineThrough,
-                    decorationColor: Colors.white,
+                  ),
+                  trailing: IconButton(
+                    icon: task[index].isDone
+                        ? const Icon(
+                            Icons.check_box_outlined,
+                            color: Color.fromRGBO(97, 93, 255, 1),
+                          )
+                        : const Icon(Icons.check_box_outline_blank_outlined),
+                    onPressed: () {
+                      provider.toggleTask(task[index]);
+                      setState(() {});
+                    },
                   ),
                 ),
-                trailing: IconButton(
-                  icon: completeTask[index].isDone
-                      ? const Icon(
-                          Icons.check_box_outlined,
-                          color: Color.fromRGBO(97, 93, 255, 1),
-                        )
-                      : const Icon(Icons.check_box_outline_blank_outlined),
-                  onPressed: () {
-                    provider.toggleTask(completeTask[index]);
-                    setState(() {});
-                  },
-                ),
-              ),
-              // : null,
-            );
-          },
+                // : null,
+              );
+            },
+          ),
         ),
       ),
     );
